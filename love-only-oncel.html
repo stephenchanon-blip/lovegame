@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Love or Ghost</title>
+
+<style>
+body {
+    text-align:center;
+    font-family: Arial;
+    background:#f2f2f2;
+}
+
+.girl {
+    width:120px;
+    margin:10px;
+    cursor:pointer;
+    border-radius:10px;
+}
+
+.used {
+    opacity:0.3;
+}
+
+#gameArea {
+    margin-top:20px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h2>💘 เกมจีบสาว – เลือกให้ถูกว่าใครคือคนจริง!</h2>
+
+<div id="status">เลือกสาว 1 คน</div>
+
+<div id="gameArea"></div>
+
+<button onclick="newGame()">เริ่มเกมใหม่</button>
+
+<script>
+
+let realGirl;
+let usedGirls = [];
+
+function newGame() {
+    usedGirls = [];
+    realGirl = Math.floor(Math.random() * 8);
+    document.getElementById("status").innerHTML = "เริ่มใหม่! เลือกสาว 1 คน";
+    render();
+}
+
+function render() {
+    let html = "";
+
+    for (let i = 0; i < 8; i++) {
+
+        let className = "girl";
+
+        if (usedGirls.includes(i)) {
+            className += " used";
+        }
+
+        html += `
+            <img src="girl${i}.jpg"
+                 class="${className}"
+                 onclick="choose(${i})">
+        `;
+    }
+
+    document.getElementById("gameArea").innerHTML = html;
+}
+
+function choose(id) {
+
+    if (usedGirls.includes(id)) {
+        alert("คุณเคยเลือกคนนี้แล้ว!");
+        return;
+    }
+
+    if (id === realGirl) {
+        document.getElementById("status").innerHTML =
+        "💖 เธอตอบรับเป็นแฟนแล้ว! คุณชนะเกม!";
+        alert("ยินดีด้วย! คุณเลือกถูก!");
+    } else {
+        alert("👻 เธอเป็นผี! ต้องเริ่มใหม่!");
+        usedGirls.push(id);
+        document.getElementById("status").innerHTML =
+        "ผิด! เลือกใหม่ (ห้ามเลือกซ้ำ)";
+    }
+
+    render();
+}
+
+newGame();
+
+</script>
+
+</body>
+</html>
